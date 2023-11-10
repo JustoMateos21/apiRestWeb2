@@ -7,7 +7,7 @@ class ApiView
     {
         header('Content-type: application/json');
         header('HTTP/1.1' . $status . " " . $this->_requestStatus($status));
-        json_decode($data);
+        echo json_encode($data);
     }
 
     private function _requestStatus($code)
