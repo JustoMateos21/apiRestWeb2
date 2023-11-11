@@ -17,7 +17,7 @@ class ProductApiController
         $this->view = new ApiView();
     }
 
-    public function get()
+    public function get($params = [])
     {
         $products = $this->model->getProducts();
         if (!empty($products))
