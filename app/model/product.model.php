@@ -6,7 +6,7 @@ class ProductModel extends Model
 
     public function getProducts()
     {
-        $query = $this->db->prepare('SELECT * FROM PRODUCT');
+        $query = $this->db->prepare("SELECT * FROM PRODUCT");
         $query->execute();
 
         // Fetch all rows from the query result
