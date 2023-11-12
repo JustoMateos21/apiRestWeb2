@@ -21,24 +21,7 @@ class ProductApiController extends ApiController
         if (empty($params)) {
             $products = $this->model->getProducts();
         } else {
-            $products = $this->model->getProducts();
-            if (isset($params[':orderBy']) && isset($params[':order']) && $params[':orderBy'] === 'price') {
-                $order = $params[':order'];
-                $field = $params[':orderBy'];
-                if ($order == 'ascendent') {
-                    usort($products, function ($a, $b) {
-                        return $a->price > $b->price;
-                    });
-                } else {
-                    usort($products, function ($a, $b) {
-                        return $a->price < $b->price;
-                    });
-                }
-
-            }
-            if (isset($params[':ID'])) {
-                $products = $this->model->getProductById($params[':ID']);
-        }
+            $products = $this->model->getProductById($params[':ID']);
         }
 
         if (empty($products)) {
@@ -48,6 +31,36 @@ class ProductApiController extends ApiController
         }
     }
 
+    public function getByOrder($params = [])
+    {
+        $products = $this->model->getProducts();
+        $order = $params[':order'];
+        $field = $params[':orderBy'];
+
+        // Define the orderByField function to sort by the specified field
+        function orderByField($a, $b, $field)
+        {
+            return $a->$field > $b->$field ? 1 : -1;
+        }
+
+        if ($order === 'ascendent') {
+            usort($products, function ($a, $b) use ($field) {
+                return orderByField($a, $b, $field);
+            });
+        } else {
+            // Reverse the sorting order for descending
+            usort($products, function ($a, $b) use ($field) {
+                return orderByField($b, $a, $field);
+            });
+        }
+    
+        if (empty($products)) {
+            return $this->view->response('Error al obtener los productos', 404);
+        } else {
+            return $this->view->response($products, 200);
+        }
+    }
+    
 
 
 
