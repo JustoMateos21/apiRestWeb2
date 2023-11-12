@@ -7,7 +7,7 @@ class ProductModel extends Model
 
     public function getProducts()
     {
-        $query = $this->db->prepare('SELECT * FROM product');
+        $query = $this->db->prepare('SELECT *, NULL AS image_file FROM product;');
         $query->execute();
 
         // Fetch all rows from the query result
@@ -16,6 +16,24 @@ class ProductModel extends Model
         return $products;
     }
 
+
+    public function getProductById($id)
+    {
+        $query = $this->db->prepare('SELECT *, NULL AS image_file FROM product where product_id        = ?');
+        $query->execute([$id]);
+        $product = $query->fetch(PDO::FETCH_OBJ);
+        return $product;
+    }
+
+
+    public function updateProduct($id, $name, $description, $brand, $price, $stock_quantity, $category_id, $image_url)
+    {
+        $query = $this->db->prepare('UPDATE product
+        SET name = ?, description = ?, brand = ?, price = ?, stock_quantity = ?, category_id = ?, image_url = ?
+        WHERE product_id = ?');
+        $query->execute([$name, $description, $brand, $price, $stock_quantity, $category_id, $image_url, $id]);
+
+    }
 
 }
 
