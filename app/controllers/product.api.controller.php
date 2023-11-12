@@ -14,24 +14,40 @@ class ProductApiController extends ApiController
         $this->model = new ProductModel();
     }
 
+   
+
     public function get($params = [])
     {
-
-        $products = '';
         if (empty($params)) {
-        $products = $this->model->getProducts();
-
+            $products = $this->model->getProducts();
         } else {
-            $products = $this->model->getProductById($params[':ID']);
+            $products = $this->model->getProducts();
+            if (isset($params[':orderBy']) && isset($params[':order']) && $params[':orderBy'] === 'price') {
+                $order = $params[':order'];
+                $field = $params[':orderBy'];
+                if ($order == 'ascendent') {
+                    usort($products, function ($a, $b) {
+                        return $a->price > $b->price;
+                    });
+                } else {
+                    usort($products, function ($a, $b) {
+                        return $a->price < $b->price;
+                    });
+                }
 
+            }
+            if (isset($params[':ID'])) {
+                $products = $this->model->getProductById($params[':ID']);
         }
-        if (!$products) {
+        }
+
+        if (empty($products)) {
             return $this->view->response('Error al obtener los productos', 404);
         } else {
             return $this->view->response($products, 200);
         }
-
     }
+
 
 
 

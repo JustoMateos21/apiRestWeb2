@@ -9,6 +9,7 @@ $router = new Router();
 
 $router->addRoute('products', 'GET', 'ProductApiController', 'get');
 $router->addRoute('products/:ID', 'GET', 'ProductApiController', 'get');
+$router->addRoute('products/sort/:orderBy/:order', 'GET', 'ProductApiController', 'get');
 $router->addRoute('products/:ID', 'PUT', 'ProductApiController', 'update');
 
 
