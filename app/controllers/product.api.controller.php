@@ -1,8 +1,8 @@
 <?php
 
-require_once './app/controller/api.controller.php';
-require_once './app/model/product.model.php';
-require_once './app/view/api.view.php';
+require_once './app/controllers/api.controller.php';
+require_once './app/models/product.model.php';
+require_once './app/views/api.view.php';
 
 class ProductApiController extends ApiController
 {
@@ -17,7 +17,10 @@ class ProductApiController extends ApiController
     public function get($params = [])
     {
         $products = $this->model->getProducts();
-        return $this->view->response($products, 200);
+        if (!$products){
+            return $this->view->response($products, 200);
+        }
+        return $this->view->response('Error al obtener los productos', 404);
        
     }
 

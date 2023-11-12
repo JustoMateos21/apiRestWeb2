@@ -1,12 +1,13 @@
 <?php
 
-require_once './app/model/model.php';
+require_once 'app/models/model.php';
+
 class ProductModel extends Model
 {
 
     public function getProducts()
     {
-        $query = $this->db->prepare("SELECT * FROM PRODUCT");
+        $query = $this->db->prepare('SELECT * FROM product');
         $query->execute();
 
         // Fetch all rows from the query result
