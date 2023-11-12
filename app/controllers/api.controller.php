@@ -1,4 +1,5 @@
 <?php
+require_once './app/views/api.view.php';
 
 abstract class ApiController
 {
@@ -9,7 +10,7 @@ abstract class ApiController
 
     public function __construct()
     {
-        $this->view = new APIView();
+        $this->view = new ApiView();
         $this->data = file_get_contents("php://input");
     }
 
