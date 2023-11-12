@@ -2,7 +2,7 @@
 
 abstract class ApiController
 {
-    protected $model; // lo instancia el hijo
+
     protected $view;
 
     private $data;

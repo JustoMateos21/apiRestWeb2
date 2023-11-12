@@ -1,11 +1,13 @@
 <?php
 
+require_once './app/controller/api.controller.php';
 require_once './app/model/product.model.php';
 require_once './app/view/api.view.php';
+
 class ProductApiController extends ApiController
 {
-
- 
+    private $model;
+        
     function __construct()
     {
         parent::__construct();
