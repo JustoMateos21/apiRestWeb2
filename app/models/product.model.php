@@ -35,6 +35,13 @@ class ProductModel extends Model
 
     }
 
+    function insertProduct($name, $description, $brand, $price, $stock_quantity, $category_id) {
+        $query = $this->db->prepare('INSERT INTO product (name, description, brand, price, stock_quantity, category_id) VALUES(?,?,?,?,?,?)');
+        $query->execute([$name, $description, $brand, $price, $stock_quantity, $category_id]);
+
+        return $this->db->lastInsertId();
+    }
+
 }
 
 ?>
