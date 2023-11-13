@@ -13,6 +13,7 @@ Crea un nuevo producto. Los campos necesartios son los siguientes:
 - price
 - stock_quantity
 - category_id
+  
 $router->addRoute('products', 'POST', 'ProductApiController', 'create');
 
 Obtiene un determinado producto por su ID
