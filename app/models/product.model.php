@@ -26,14 +26,15 @@ class ProductModel extends Model
     }
 
 
-    public function updateProduct($id, $name, $description, $brand, $price, $stock_quantity, $category_id, $image_url)
+    public function updateProduct($id, $name, $description, $brand, $price, $stock_quantity, $category_id)
     {
         $query = $this->db->prepare('UPDATE product
-        SET name = ?, description = ?, brand = ?, price = ?, stock_quantity = ?, category_id = ?, image_url = ?
+        SET name = ?, description = ?, brand = ?, price = ?, stock_quantity = ?, category_id = ?
         WHERE product_id = ?');
-        $query->execute([$name, $description, $brand, $price, $stock_quantity, $category_id, $image_url, $id]);
+        $query->execute([$name, $description, $brand, $price, $stock_quantity, $category_id, $id]);
 
     }
+
 
     function insertProduct($name, $description, $brand, $price, $stock_quantity, $category_id) {
         $query = $this->db->prepare('INSERT INTO product (name, description, brand, price, stock_quantity, category_id) VALUES(?,?,?,?,?,?)');

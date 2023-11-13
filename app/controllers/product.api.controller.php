@@ -31,6 +31,7 @@ class ProductApiController extends ApiController
         }
     }
 
+
     public function getByOrder($params = [])
     {
         $products = $this->model->getProducts();
@@ -66,18 +67,20 @@ class ProductApiController extends ApiController
     {
 
         $id = $params[':ID'];
-        $tarea = $this->model->getProductById($id);
+        $product = $this->model->getProductById($id);
 
-        if ($tarea) {
+        if ($product) {
             $body = $this->getData();
+
             $name = $body->name;
             $description = $body->description;
             $brand = $body->brand;
             $price = $body->price;
             $stock_quantity = $body->stock_quantity;
             $category_id = $body->category_id;
-            $image_url = $body->image_url;
-            $this->model->updateProduct($name, $description, $brand, $price, $stock_quantity, $category_id);
+            
+
+            $this->model->updateProduct($id, $name, $description, $brand, $price, $stock_quantity, $category_id);
             $this->view->response('El producto con id=' . $id . ' ha sido modificado.', 200);
         } else {
             $this->view->response('El producto con id=' . $id . ' no existe.', 404);
