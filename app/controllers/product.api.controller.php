@@ -18,10 +18,10 @@ class ProductApiController extends ApiController
 
     public function get($params = [])
     {
-        if (empty($params)) {
+        if (!isset($_GET['qty'])) {
             $products = $this->model->getProducts();
         } else {
-            $products = $this->model->getProductById($params[':ID']);
+            $products = $this->model->getProductsLimited($_GET['qty']);
         }
 
         if (empty($products)) {
@@ -29,6 +29,18 @@ class ProductApiController extends ApiController
         } else {
             return $this->view->response($products, 200);
         }
+    }
+
+
+    public function getById($params = [])
+    {
+        $product = $this->model->getProductById($params[':ID']);
+        if (empty($product)) {
+            return $this->view->response('Error al obtener el producto', 404);
+        } else {
+            return $this->view->response($product, 200);
+        }
+
     }
 
 

@@ -35,6 +35,19 @@ class ProductModel extends Model
 
     }
 
+    public function getProductsLimited($limit)
+    {
+        $limit = (int) $limit ?: 10;
+        $query = $this->db->prepare('SELECT *, NULL AS image_file FROM product LIMIT :limit');
+        $query->bindParam(':limit', $limit, PDO::PARAM_INT);
+        $query->execute();
+
+        $products = $query->fetchAll(PDO::FETCH_OBJ);
+
+        return $products;
+    }
+
+
 
     function insertProduct($name, $description, $brand, $price, $stock_quantity, $category_id) {
         $query = $this->db->prepare('INSERT INTO product (name, description, brand, price, stock_quantity, category_id) VALUES(?,?,?,?,?,?)');
