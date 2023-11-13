@@ -18,10 +18,13 @@ class ProductApiController extends ApiController
 
     public function get($params = [])
     {
-        if (!isset($_GET['qty'])) {
-            $products = $this->model->getProducts();
-        } else {
+
+        if (isset($_GET['qty'])) {
             $products = $this->model->getProductsLimited($_GET['qty']);
+        } else if (isset($_GET['brand'])) {
+            $products = $this->model->getProductsByBrand($_GET['brand']);
+        } else {
+            $products = $this->model->getProducts();
         }
 
         if (empty($products)) {
@@ -29,6 +32,7 @@ class ProductApiController extends ApiController
         } else {
             return $this->view->response($products, 200);
         }
+        
     }
 
 
@@ -50,7 +54,6 @@ class ProductApiController extends ApiController
         $order = $params[':order'];
         $field = $params[':orderBy'];
 
-        // Define the orderByField function to sort by the specified field
         function orderByField($a, $b, $field)
         {
             return $a->$field > $b->$field ? 1 : -1;
@@ -61,7 +64,6 @@ class ProductApiController extends ApiController
                 return orderByField($a, $b, $field);
             });
         } else {
-            // Reverse the sorting order for descending
             usort($products, function ($a, $b) use ($field) {
                 return orderByField($b, $a, $field);
             });

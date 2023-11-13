@@ -10,7 +10,6 @@ class ProductModel extends Model
         $query = $this->db->prepare('SELECT *, NULL AS image_file FROM product;');
         $query->execute();
 
-        // Fetch all rows from the query result
         $products = $query->fetchAll(PDO::FETCH_OBJ);
 
         return $products;
@@ -19,7 +18,7 @@ class ProductModel extends Model
 
     public function getProductById($id)
     {
-        $query = $this->db->prepare('SELECT *, NULL AS image_file FROM product where product_id        = ?');
+        $query = $this->db->prepare('SELECT *, NULL AS image_file FROM product WHERE product_id = ?');
         $query->execute([$id]);
         $product = $query->fetch(PDO::FETCH_OBJ);
         return $product;
@@ -48,13 +47,24 @@ class ProductModel extends Model
     }
 
 
+    public function getProductsByBrand($brand)
+    {
+        $query = $this->db->prepare('SELECT *, NULL AS image_file FROM product WHERE brand = ?');
+        $query->execute([$brand]);
+        $products = $query->fetchAll(PDO::FETCH_OBJ);
 
-    function insertProduct($name, $description, $brand, $price, $stock_quantity, $category_id) {
+        return $products;
+
+    }
+
+
+    public function insertProduct($name, $description, $brand, $price, $stock_quantity, $category_id) {
         $query = $this->db->prepare('INSERT INTO product (name, description, brand, price, stock_quantity, category_id) VALUES(?,?,?,?,?,?)');
         $query->execute([$name, $description, $brand, $price, $stock_quantity, $category_id]);
 
         return $this->db->lastInsertId();
     }
+
 
 }
 

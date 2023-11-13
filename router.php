@@ -14,5 +14,4 @@ $router->addRoute('products/sort/:orderBy/:order', 'GET', 'ProductApiController'
 $router->addRoute('products/:ID', 'PUT', 'ProductApiController', 'update');
 
 
-
 $router->route($_GET["resource"], $_SERVER['REQUEST_METHOD']);
